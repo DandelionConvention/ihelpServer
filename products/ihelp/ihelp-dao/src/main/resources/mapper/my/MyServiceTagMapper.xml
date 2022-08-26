@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.services.products.ihelp.dao.mapper.my.MyServiceTagMapper">
+    <resultMap id="BaseResultMap" type="com.services.products.ihelp.dao.domain.ServiceTag">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="is_used" property="isUsed" />
+        <result column="is_deleted" property="isDeleted" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+    <select id="list" resultMap="BaseResultMap">
+        select `id`, `name`, `is_used`
+        from `service_tag`
+        where 1 = 1
+        and `is_deleted` = false
+    </select>
+    <select id="selectServiceTagListByOrderId" resultType="com.services.products.ihelp.dao.domain.ServiceTag">
+        select st.id, st.`name`
+        from service_tag st
+                 join (select service_tag_id from service_order_service_tag where service_order_id = #{orderId}) s
+                      on st.id = s.service_tag_id
+    </select>
+    <select id="nameExisted" resultType="object">
+        select 1
+        from `demo`
+        where name = #{name}
+        limit 1
+    </select>
+</mapper>

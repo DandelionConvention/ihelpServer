@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.services.products.ihelp.dao.mapper.my.MyServiceApplicationMapper">
+    <resultMap id="BaseResultMap" type="com.services.products.ihelp.dao.domain.ServiceApplication">
+        <id column="service_order_id" jdbcType="BIGINT" property="serviceOrderId" />
+        <id column="servant_id" jdbcType="BIGINT" property="servantId" />
+        <result column="service_status" jdbcType="TINYINT" property="serviceStatus" />
+        <result column="remark" jdbcType="VARCHAR" property="remark" />
+        <result column="phone" jdbcType="CHAR" property="phone" />
+        <result column="region" jdbcType="INTEGER" property="region" />
+        <result column="province" jdbcType="VARCHAR" property="province" />
+        <result column="city" jdbcType="VARCHAR" property="city" />
+        <result column="county" jdbcType="VARCHAR" property="county" />
+        <result column="detailed_address" jdbcType="VARCHAR" property="detailedAddress" />
+        <result column="lng" jdbcType="VARCHAR" property="lng" />
+        <result column="lat" jdbcType="VARCHAR" property="lat" />
+        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <update id="updateServiceApplicationStatusByOrderIdAndServiceStatusNum">
+        update service_application
+        set service_status = #{afterServiceStatusNum}
+        where service_order_id = #{orderId}
+          and service_status = #{previousServiceStatusNum}
+    </update>
+</mapper>

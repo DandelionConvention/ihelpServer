@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.services.products.ihelp.dao.mapper.my.MyServiceOrderMapper">
+    <resultMap id="BaseResultMap" type="com.services.products.ihelp.dao.domain.ServiceOrder">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="service_status" jdbcType="TINYINT" property="serviceStatus"/>
+        <result column="client_id" jdbcType="BIGINT" property="clientId"/>
+        <result column="servant_id" jdbcType="BIGINT" property="servantId"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+        <result column="service_time" jdbcType="TIMESTAMP" property="serviceTime"/>
+        <result column="service_duration" jdbcType="TINYINT" property="serviceDuration"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
+        <result column="region" jdbcType="INTEGER" property="region"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="county" jdbcType="VARCHAR" property="county"/>
+        <result column="detailed_address" jdbcType="VARCHAR" property="detailedAddress"/>
+        <result column="lng" jdbcType="VARCHAR" property="lng"/>
+        <result column="lat" jdbcType="VARCHAR" property="lat"/>
+        <result column="integral" jdbcType="DECIMAL" property="integral"/>
+        <result column="tip" jdbcType="DECIMAL" property="tip"/>
+        <result column="pass_time" jdbcType="TIMESTAMP" property="passTime"/>
+        <result column="finished_time" jdbcType="TIMESTAMP" property="finishedTime"/>
+        <result column="reading_count" jdbcType="INTEGER" property="readingCount"/>
+        <result column="commit_count" jdbcType="INTEGER" property="commitCount"/>
+        <result column="is_deleted" jdbcType="BIT" property="isDeleted"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <resultMap id="HisServicesBO" type="com.services.products.ihelp.dao.bo.HisServiceBO">
+        <id column="id" property="id"/>
+        <result column="service_status" property="serviceStatus"/>
+        <result column="content" property="content"/>
+        <result column="integral" property="integral"/>
+        <result column="service_time" property="serviceTime"/>
+        <association property="address" javaType="com.services.products.ihelp.dao.bo.ServiceAddressBO">
+            <result column="province" property="province"/>
+            <result column="city" property="city"/>
+        </association>
+        <collection property="serviceTag" ofType="com.services.products.ihelp.dao.bo.ServiceTagBO">
+            <id column="service_tag_id" property="id"/>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+    <resultMap id="ListServicesBO" type="com.services.products.ihelp.dao.bo.ListServicesBO">
+        <id column="id" property="id"/>
+        <result column="content" property="content"/>
+        <result column="integral" property="integral"/>
+        <association property="region" javaType="com.services.products.ihelp.dao.bo.ServiceAddressBO">
+            <result column="province" property="province"/>
+            <result column="city" property="city"/>
+        </association>
+        <collection property="tags" ofType="com.services.products.ihelp.dao.bo.ServiceTagBO">
+            <id column="service_tag_id" property="id"/>
+            <result column="name" property="name"/>
+        </collection>
+    </resultMap>
+    <update id="commitCountIncrement">
+        update service_order
+        set commit_count = commit_count + 1
+        where id = #{orderId}
+    </update>
+    <update id="updateServiceOrderStatusByOrderId">
+        update service_order
+        set service_status = #{statusNum}
+        where id = #{orderId}
+    </update>
+    <select id="selectServiceOrderByClientId" resultMap="BaseResultMap">
+        select id, service_status, content, integral, commit_count
+        from service_order
+        where client_id = #{clientId}
+        and is_deleted = false
+    </select>
+    <select id="selectServiceOrderByClientIdAndStatus" resultMap="BaseResultMap">
+        select id, service_status, content, integral, commit_count
+        from service_order
+        where client_id = #{clientId}
+        and service_status = #{status}
+        and is_deleted = false
+    </select>
+    <select id="selectServiceOrderByServiceApplicationServantId" resultMap="BaseResultMap">
+        select so.id, so.content, so.service_status, so.integral, so.commit_count, so.client_id
+        from `service_order` so
+                 join (select service_order_id from `service_application` where servant_id = #{servantId}) sa
+                      on so.id = sa.service_order_id
+        where so.is_deleted = false
+    </select>
+    <select id="selectServiceOrderByServiceApplicationServantIdAndStatus" resultMap="BaseResultMap">
+        select so.id, so.content, so.service_status, so.integral, so.commit_count, so.client_id
+        from `service_order` so
+                 join (select service_order_id from `service_application` where servant_id = #{servantId} and service_status = #{status}) sa
+                      on so.id = sa.service_order_id
+        where so.is_deleted = false
+    </select>
+    <select id="serviceOrderExistedByOrderIdAndUserId" resultType="Object">
+        select 1
+        from service_order
+        where id = #{orderId}
+        and client_id = #{userId}
+    </select>
+    <select id="getHisServices" resultMap="HisServicesBO">
+        SELECT so.id, so.service_status, so.content, so.integral, so.service_time, so.province, so.city,
+        sost.service_tag_id, st.`name`
+        FROM service_order so JOIN service_order_service_tag sost JOIN service_tag st
+        WHERE 1 = 1
+        AND so.is_deleted = false
+        <if test="clientId != null">
+            AND so.client_id = #{clientId}
+        </if>
+        <if test="servantId != null">
+            AND so.servant_id = #{servantId}
+        </if>
+        AND so.id=sost.service_order_id AND st.id=sost.service_tag_id
+    </select>
+    <select id="countRecruiting" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM service_order so WHERE so.service_status=1 AND so.client_id=#{id}
+    </select>
+    <select id="listServices" resultMap="ListServicesBO">
+        SELECT so.id, so.content, so.integral, so.province, so.city,
+        sost.service_tag_id, st.`name`
+        FROM service_order so JOIN service_order_service_tag sost JOIN service_tag st
+        WHERE 1 = 1
+        AND so.id IN (SELECT t.id FROM (SELECT id FROM service_order WHERE is_deleted = false AND service_status = 1
+        <if test="condition.createTime != null">
+            AND TO_DAYS(NOW()) - TO_DAYS(create_time) <![CDATA[ <= ]]> #{condition.createTime}
+        </if>
+        <if test="condition.minIntegral != null">
+            AND integral <![CDATA[ >= ]]> #{condition.minIntegral}
+        </if>
+        <if test="condition.maxIntegral != null">
+            AND integral <![CDATA[ <= ]]> #{condition.maxIntegral}
+        </if>
+        <if test="condition.minDuration != null">
+            AND service_duration <![CDATA[ >= ]]> #{condition.minDuration}
+        </if>
+        <if test="condition.maxDuration != null">
+            AND service_duration <![CDATA[ <= ]]> #{condition.maxDuration}
+        </if>
+        <if test="condition.latest == true">
+            ORDER BY create_time DESC
+        </if>
+        <if test="condition.serviceTime == 'asc'">
+            ORDER BY service_time ASC
+        </if>
+        <if test="condition.serviceTime == 'desc'">
+            ORDER BY service_time DESC
+        </if>
+        <if test="condition.commitCount == 'asc'">
+            ORDER BY commit_count ASC
+        </if>
+        <if test="condition.commitCount == 'desc'">
+            ORDER BY commit_count DESC
+        </if>
+        LIMIT ${(condition.page-1)*condition.perPage},${condition.perPage}) AS t)
+        AND so.id=sost.service_order_id
+        AND st.id=sost.service_tag_id
+    </select>
+</mapper>

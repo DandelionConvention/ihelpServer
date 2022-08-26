@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="autoDelimitKeywords" value="true"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!--覆盖生成XML文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>
+        <!-- 生成的实体类添加toString()方法 -->
+        <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+
+        <!-- 不生成注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://49.232.166.172:33060/ihuzhu"
+                        userId="root"
+                        password="Test!234">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+            <!-- This property is used to specify whether MyBatis Generator should force the use of JSR-310 data types for DATE, TIME,
+            and TIMESTAMP fields, rather than using java.util.Date -->
+            <property name="useJSR310Types" value="true"/>
+        </javaTypeResolver>
+
+        <!-- domain类的位置 -->
+        <javaModelGenerator targetProject="src\main\java"
+                            targetPackage="com.services.products.ihelp.dao.domain"/>
+
+        <!-- mapper xml的位置 -->
+        <sqlMapGenerator targetProject="src\main\resources"
+                         targetPackage="mapper"/>
+
+        <!-- mapper类的位置 -->
+        <javaClientGenerator targetProject="src\main\java"
+                             targetPackage="com.services.products.ihelp.dao.mapper"
+                             type="XMLMAPPER"/>
+
+<!--        <table tableName="demo" domainObjectName="Demo"/>-->
+<!--        <table tableName="admin" domainObjectName="Admin"/>-->
+<!--        <table tableName="bonus_integral" domainObjectName="BonusIntegral"/>-->
+<!--        <table tableName="comment" domainObjectName="Comment"/>-->
+<!--        <table tableName="complaint" domainObjectName="Complaint"/>-->
+<!--        <table tableName="credit_level" domainObjectName="CreditLevel"/>-->
+<!--        <table tableName="face_recognition_record" domainObjectName="FaceRecognitionRecord"/>-->
+<!--        <table tableName="feedback" domainObjectName="Feedback"/>-->
+<!--        <table tableName="income_order" domainObjectName="IncomeOrder"/>-->
+<!--        <table tableName="interest_rate" domainObjectName="InterestRate"/>-->
+<!--        <table tableName="order_record" domainObjectName="OrderRecord"/>-->
+<!--        <table tableName="question" domainObjectName="Question"/>-->
+<!--        <table tableName="question_category" domainObjectName="QuestionCategory"/>-->
+<!--        <table tableName="recharge_denomination" domainObjectName="RechargeDenomination"/>-->
+<!--        <table tableName="recharge_order" domainObjectName="RechargeOrder"/>-->
+<!--        <table tableName="service_application" domainObjectName="ServiceApplication"/>-->
+<!--        <table tableName="service_cancel_application" domainObjectName="ServiceCancelApplication"/>-->
+<!--        <table tableName="service_cancel_reason" domainObjectName="ServiceCancelReason"/>-->
+<!--        <table tableName="service_order" domainObjectName="ServiceOrder"/>-->
+<!--        <table tableName="service_order_service_tag" domainObjectName="ServiceOrderServiceTag"/>-->
+<!--        <table tableName="service_tag" domainObjectName="ServiceTag"/>-->
+<!--        <table tableName="transfer_order" domainObjectName="TransferOrder"/>-->
+<!--        <table tableName="user" domainObjectName="User"/>-->
+<!--        <table tableName="file" domainObjectName="File"/>-->
+<!--        <table tableName="service_order_collect" domainObjectName="ServiceOrderCollect"/>-->
+<!--        <table tableName="certification_record" domainObjectName="CertificationRecord"/>-->
+    </context>
+</generatorConfiguration>

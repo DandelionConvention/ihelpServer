@@ -1,0 +1,35 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 9100
+  servlet:
+    context-path: /cloud
+spring:
+  application:
+    name: cloud
+aliyun:
+  oss:
+    accessKeyId: LTAI5tRRHsRWRHdBDnv61WYm
+    accessKeySecret: zUSDLYxbTQVKTTB9sNfqkt1pKjEIlz
+    bucketName: ihelp
+    domain: https://ihelp.oss-cn-beijing.aliyuncs.com/
+#                   ihelp.oss-cn-beijing.aliyuncs.com
+    endpoint: oss-cn-beijing.aliyuncs.com
+tencent:
+  cloud:
+    secretId: AKIDEH6g17yaw3vYw4yc1A4j8ICsOgjX6QUI
+    secretKey: cz7zd1A3h5E8mBMJ0TgeMq44rPilZ8SW
+    token: ''
+    region: ap-beijing
+  lbs:
+    key: JUHBZ-DEOCX-IS24T-7GFIG-EZ23Z-N6FMN
+    secretKey: rw4XzZQYbLsRTupRTTq16W0yz1RZCCla
+wx:
+  miniapp:
+    aesKey: ''
+    appid: wx727e22179aa55ef4
+    msgDataFormat: JSON
+    secret: bf74d6ac54c708e9b18a65dcee2b09af
+    token: ''

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.services.products.ihelp.dao.mapper.my.MyServiceOrderServantMapper">
+    <resultMap id="ServiceOrderServantsDto" type="com.services.products.ihelp.dao.domain.User">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="gender" jdbcType="TINYINT" property="gender" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="credit_score" jdbcType="INTEGER" property="creditScore" />
+    </resultMap>
+    <select id="listServiceOrderServant" resultMap="ServiceOrderServantsDto">
+        select u.id, u.avatar, u.birthday, u.gender, u.credit_score, u.nickname
+        from `user` u
+        join (select servant_id from `service_application` where service_order_id = #{id}) s
+        on u.id = s.servant_id
+    </select>
+</mapper>

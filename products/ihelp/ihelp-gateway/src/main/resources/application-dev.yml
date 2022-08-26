@@ -1,0 +1,40 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+server:
+  port: 9000
+spring:
+  application:
+    name: gateway
+  redis:
+    database: 1
+    host: 49.232.166.172
+    password: Test!234
+    port: 6379
+  cloud:
+    gateway:
+      routes:
+        - filters:
+            - args:
+                - true
+              name: LoginMiniapp
+          id: miniapp
+          predicates:
+            - args:
+                - /mp/**
+              name: Path
+          uri: lb://miniapp
+        - id: cms
+          predicates:
+            - args:
+                - /cms/**
+              name: Path
+          uri: lb://cms
+
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.services.products.ihelp.dao.mapper.my.MyUserMapper">
+    <resultMap id="BaseResultMap" type="com.services.products.ihelp.dao.domain.User">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <id column="create_count" jdbcType="INTEGER" property="createCount" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="role" jdbcType="TINYINT" property="role" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="gender" jdbcType="TINYINT" property="gender" />
+        <result column="birthday" jdbcType="DATE" property="birthday" />
+        <result column="expiration" jdbcType="DATE" property="expiration" />
+        <result column="id_number" jdbcType="VARCHAR" property="idNumber" />
+        <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+        <result column="signature" jdbcType="VARCHAR" property="signature" />
+        <result column="photo" jdbcType="VARCHAR" property="photo" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="phone" jdbcType="CHAR" property="phone" />
+        <result column="integral" jdbcType="DECIMAL" property="integral" />
+        <result column="credit_score" jdbcType="INTEGER" property="creditScore" />
+        <result column="service_times" jdbcType="INTEGER" property="serviceTimes" />
+        <result column="enjoy_times" jdbcType="INTEGER" property="enjoyTimes" />
+        <result column="commit_count" jdbcType="INTEGER" property="commitCount" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <update id="commitCountIncrement">
+        update user
+        set commit_count = commit_count + 1
+        where id = #{userId}
+    </update>
+    <update id="createCountIncrement">
+        update user
+        set create_count = create_count + 1
+        where id = #{userId}
+    </update>
+    <select id="selectUserIntegralByUserId" resultType="decimal">
+        select integral
+        from user
+        where id = #{userId}
+        limit 1
+    </select>
+    <update id="updateUserIntegralByUserId">
+        update user
+        set integral = integral + #{amount}
+        where id = #{userId};
+    </update>
+    <select id="selectUserRoleByUserId" resultType="byte">
+        select role
+        from user
+        where id = #{userId}
+        limit 1
+    </select>
+    <select id="getUserByOpenid" resultMap="BaseResultMap">
+        select `id`, `avatar`, `nickname`, `role`, `integral`, `status` from `user` where `openid`=#{openid} limit 1
+    </select>
+</mapper>
