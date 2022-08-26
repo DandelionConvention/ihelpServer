@@ -11,24 +11,24 @@ spring:
     name: cloud
 aliyun:
   oss:
-    accessKeyId: LTAI4GGChi16cxpdKnZvb7po
-    accessKeySecret: JH6oNNd1wjaxBcze8RcCZQJ0bsHeSy
+    accessKeyId: 
+    accessKeySecret: 
     bucketName: ihuzhu-dev
     domain: https://ihuzhu-dev.oss-cn-beijing.aliyuncs.com/
-    endpoint: oss-cn-beijing.aliyuncs.com
+    endpoint: 
 tencent:
   cloud:
-    secretId: AKIDpOwEG26mY6NchVgD5h9M7ctu3x2tNvc6
-    secretKey: FI6dDtJTMgphIldFbjOpzsZfZDZcQxEM
+    secretId: 
+    secretKey: 
     token: ''
-    region: ap-beijing
+    region: 
   lbs:
-    key: SFVBZ-GLLKP-IYGDG-LRMQ4-NEL4Q-YBBWA
-    secretKey: rw4XzZQYbLsRTupRTTq16W0yz1RZCCla
+    key: 
+    secretKey: 
 wx:
   miniapp:
     aesKey: ''
-    appid: wxa340fb00f9f9cf97
+    appid: 
     msgDataFormat: JSON
-    secret: 6c4d7eba5ca749f6d07ed0a3ab4f442e
+    secret: 
     token: ''
