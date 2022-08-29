@@ -1,17 +1,5 @@
 # server
 
-## i互助后端仓库
-
-### 克隆仓库
-
-```sh
-git clone ssh://git@144.202.125.241:22222/ihuzhu/server.git
-
-或
-
-git clone https://git.doctorlwho.com/ihuzhu/server.git
-```
-
 ### 分支说明
 
 - master：主分支
